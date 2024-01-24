@@ -32,8 +32,10 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
     public void addNote(Note note, boolean multiple) {
         //INSERT INTO NOTES (title, content) VALUES ("title 1", "content 1");
-        String insert_sql = "INSERT INTO "+Note.Entry.TABLE_NAME+" ("+Note.Entry.TITLE+", "+Note.Entry.CONTENT+
-                ") VALUES ('"+ note.getTitle()+"', '"+note.getContent()+"' );";
+//        String insert_sql = "INSERT INTO "+Note.Entry.TABLE_NAME+" ("+Note.Entry.TITLE+", "+Note.Entry.CONTENT+
+//                ") VALUES ('"+ note.getTitle()+"', '"+note.getContent()+"' );";
+        String insert_sql = String.format("INSERTl INTO %s (%s, %s) VALUES ('%s', '%s');",
+                Note.Entry.TABLE_NAME, Note.Entry.TITLE, Note.Entry.CONTENT, note.getTitle(), note.getContent());
 
 
         Log.d("SQLite", insert_sql);
@@ -63,7 +65,8 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
         db = getReadableDatabase();
         // SELECT * FROM NOTE ORDER BY CREATED_AT DESC;
-        String selectQuery = "SELECT * FROM "+Note.Entry.TABLE_NAME+" ORDER BY CREATED_AT DESC;";
+//        String selectQuery = "SELECT * FROM "+Note.Entry.TABLE_NAME+" ORDER BY CREATED_AT DESC;";
+        String selectQuery = String.format("SELECT * FROM %s ORDER BY CREATED_AT DESC;", Note.Entry.TABLE_NAME);
 
         Cursor cursor = db.rawQuery(selectQuery, null);
 

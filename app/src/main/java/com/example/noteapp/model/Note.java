@@ -72,12 +72,19 @@ public class Note {
         public static String CREATED_AT = "CREATED_AT";
 
         public static String createTableQuery(){
-            String sql = "CREATE TABLE IF NOT EXISTS "+ TABLE_NAME +" ( "+
-                    ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "+
-                    TITLE + " TEXT NOT NULL, " +
-                    CONTENT + " TEXT NOT NULL, " +
-                    CREATED_AT + " TIMESTAMP DEFAULT CURRENT_TIMESTAMP" +
-                    ");";
+            //CREATE TABLE IF NOT EXISTS NOTE ( ID INTEGER PRIMARY KEY AUTOINCREMENT, TITLE TEXT NOT NULL,
+            //CONTENT TEXT NOT NULL, CREATED_AT TIMESTAMP DEFAULT CURRENT_TIMESTAMP);
+//            String sql = "CREATE TABLE IF NOT EXISTS "+ TABLE_NAME +" ( "+
+//                    ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "+
+//                    TITLE + " TEXT NOT NULL, " +
+//                    CONTENT + " TEXT NOT NULL, " +
+//                    CREATED_AT + " TIMESTAMP DEFAULT CURRENT_TIMESTAMP" +
+//                    ");";
+            String sql = String.format("CREATE TABLE IF NOT EXISTS %s ( %s INTEGER PRIMARY KEY AUTOINCREMENT," +
+                    " %s TEXT NOT NULL, %s TEXT NOT NULL, %s TIMESTAMP DEFAULT CURRENT_TIMESTAMP);",
+                    TABLE_NAME, ID, TITLE, CONTENT, CREATED_AT);
+
+
             return sql;
         }
 

@@ -16,7 +16,8 @@ protected BaseActivity baseActivity;
 
     protected T binding;
 
-    protected abstract T inflateViewBinding(LayoutInflater inflater, ViewGroup parent, boolean toAttachRoot);
+    protected abstract T inflateViewBinding(LayoutInflater inflater, ViewGroup container, boolean attachToParent);
+
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -31,6 +32,7 @@ protected BaseActivity baseActivity;
         return binding.getRoot();
 
     }
+
 
 
 }
