@@ -114,6 +114,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
         android:text="CREATE ACCONT"
+        android:background="@drawable/custom_button"
         app:layout_constraintBottom_toBottomOf="parent" />
 
 

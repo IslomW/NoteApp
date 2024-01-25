@@ -21,7 +21,7 @@ import java.util.ArrayList;
 public class NotesFragment extends BaseFragment<FragmentNotesBinding> {
 
     private NoteListAdapter noteListAdapter;
-    private ArrayList<Note> noteArrayList;
+    private ArrayList<Note> noteArrayList = new ArrayList<>();
 
 
     @Override
@@ -54,4 +54,16 @@ public class NotesFragment extends BaseFragment<FragmentNotesBinding> {
     }
 
 
+    @Override
+    public void onStart() {
+        super.onStart();
+        noteArrayList.clear();
+        noteArrayList.addAll(baseActivity.dataBaseHelper.getNotes());
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        noteListAdapter.notifyDataSetChanged();
+    }
 }

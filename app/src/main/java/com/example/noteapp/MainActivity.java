@@ -38,7 +38,7 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         replaceFragment(R.id.nav_notes);
-        generateNotes();
+//        generateNotes();
 
         binding.bottomNav.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
             @Override
@@ -58,14 +58,14 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> {
             if (notesFragment == null)
                 notesFragment = new NotesFragment();
 
-            getSupportFragmentManager().beginTransaction().replace(R.id.frament_container, notesFragment).commit();
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, notesFragment).commit();
             setTitle("Notes");
         } else if (tabId == R.id.nav_profile) {
 
             if (profileFragment == null)
                 profileFragment = new ProfileFragment();
 
-            getSupportFragmentManager().beginTransaction().replace(R.id.frament_container, profileFragment).commit();
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, profileFragment).commit();
             setTitle("Profile");
 
         }
