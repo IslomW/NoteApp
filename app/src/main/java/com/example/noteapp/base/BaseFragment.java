@@ -12,11 +12,11 @@ import androidx.viewbinding.ViewBinding;
 
 public abstract class BaseFragment<T extends ViewBinding> extends Fragment {
 
-protected BaseActivity baseActivity;
+    protected BaseActivity baseActivity;
 
     protected T binding;
 
-    protected abstract T inflateViewBinding(LayoutInflater inflater, ViewGroup container, boolean attachToParent);
+    protected abstract T inflateViewBinding(LayoutInflater inflater, ViewGroup parent, boolean toAttachRoot);
 
 
     @Override
@@ -28,11 +28,10 @@ protected BaseActivity baseActivity;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-       binding = inflateViewBinding(inflater, container, false);
+        binding = inflateViewBinding(inflater, container, false);
         return binding.getRoot();
 
     }
-
 
 
 }

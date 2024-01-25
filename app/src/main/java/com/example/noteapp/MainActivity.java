@@ -24,7 +24,6 @@ import java.util.zip.Inflater;
 
 public class MainActivity extends BaseActivity<ActivityMainBinding> {
 
-
     private ArrayList<Note> noteArrayList;
     private NotesFragment notesFragment;
     private ProfileFragment profileFragment;
@@ -39,42 +38,77 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         replaceFragment(R.id.nav_notes);
-        buttonSetup();
+        generateNotes();
+
+        binding.bottomNav.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                replaceFragment(item.getItemId());
+                return true;
+            }
+        });
+
+
     }
 
+    private void replaceFragment(int tabId) {
 
+        if (tabId == R.id.nav_notes) {
 
+            if (notesFragment == null)
+                notesFragment = new NotesFragment();
 
-    //    @Override
-//    protected void onCreate(@Nullable Bundle savedInstanceState) {
-//        super.onCreate(savedInstanceState);
-//        buttonSetup();
-//
-//    }
+            getSupportFragmentManager().beginTransaction().replace(R.id.frament_container, notesFragment).commit();
+            setTitle("Notes");
+        } else if (tabId == R.id.nav_profile) {
+
+            if (profileFragment == null)
+                profileFragment = new ProfileFragment();
+
+            getSupportFragmentManager().beginTransaction().replace(R.id.frament_container, profileFragment).commit();
+            setTitle("Profile");
+
+        }
+    }
+
 
     @Override
     protected void onResume() {
         super.onResume();
         noteArrayList = dataBaseHelper.getNotes();
 
-        for (Note note: noteArrayList){
-            Log.d("Note:", note.toString());
+        for (Note note : noteArrayList) {
+            Log.d("Note", note.toString());
         }
+
     }
 
+    void generateNotes() {
+        ArrayList<Note> notes = new ArrayList<>();
+        for (int i = 0; i < 100; i++) {
+            Note note = new Note();
 
-    private void buttonSetup() {
+            note.setTitle("Title " + (i + 1));
+            note.setContent("Content " + (i + 1));
+            notes.add(note);
+        }
+        dataBaseHelper.addNotes(notes);
+    }
 
-        binding.bottomNav.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+}
+//        noteArrayList = dataBaseHelper.getNotes();
+////
+////        for (Note note: noteArrayList){
+//////            Log.d("Note:", note.toString());
+////        }
 
-                replaceFragment(item.getItemId());
 
-                return true;
-            }
-        });
-
+//    @Override
+//    protected void onCreate(@Nullable Bundle savedInstanceState) {
+//        super.onCreate(savedInstanceState);
+//        buttonSetup();
+//
+//    }
 
 
 //        binding.buttonLogout.setOnClickListener(new View.OnClickListener() {
@@ -102,21 +136,3 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> {
 //                startActivity(intent);
 //            }
 //        });
-
-    }
-
-    private void replaceFragment(int tabId) {
-        if (tabId == R.id.nav_notes){
-            if (notesFragment == null)
-                notesFragment = new NotesFragment();
-
-            getSupportFragmentManager().beginTransaction().replace(R.id.frament_container, notesFragment).commit();
-        }else {
-           if (profileFragment == null)
-               profileFragment = new ProfileFragment();
-           getSupportFragmentManager().beginTransaction().replace(R.id.frament_container, profileFragment).commit();
-        }
-    }
-
-
-}

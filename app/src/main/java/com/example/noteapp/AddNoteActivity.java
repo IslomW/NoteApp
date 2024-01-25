@@ -10,7 +10,6 @@ import com.example.noteapp.base.BaseActivity;
 import com.example.noteapp.databinding.ActivityAddNewCardBinding;
 import com.example.noteapp.model.Note;
 
-import java.util.ArrayList;
 
 public class AddNoteActivity extends BaseActivity<ActivityAddNewCardBinding> {
     @Override
@@ -22,13 +21,13 @@ public class AddNoteActivity extends BaseActivity<ActivityAddNewCardBinding> {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-//        buttonClickSetup();
         binding.buttonCreateNote.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 String title = binding.editTextTitle.getText().toString();
                 String context = binding.editTextTitle.getText().toString();
                 Note note = new Note(title, context);
+
 
                 dataBaseHelper.addNote(note, false);
 
