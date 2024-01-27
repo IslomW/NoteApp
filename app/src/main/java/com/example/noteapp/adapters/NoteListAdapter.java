@@ -1,5 +1,6 @@
 package com.example.noteapp.adapters;
 
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -7,6 +8,8 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.viewbinding.ViewBinding;
 
+import com.example.noteapp.AddNoteActivity;
+import com.example.noteapp.NoteDetailsActivity;
 import com.example.noteapp.base.BaseRecyclerAdapter;
 import com.example.noteapp.base.BaseViewHolder;
 import com.example.noteapp.databinding.ItemNoteBinding;
@@ -33,6 +36,18 @@ public class NoteListAdapter extends BaseRecyclerAdapter {
     @Override
     public void onBindViewHolder(@NonNull BaseViewHolder holder, int position) {
         super.onBindViewHolder(holder, position);
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Note note = noteArrayList.get(holder.getAdapterPosition());
+                  //har bir noteItem bosilisha Add Note activityga otish
+                Intent intent = new Intent(holder.itemView.getContext() , NoteDetailsActivity.class);
+//                intent.putExtra("note_id", note.getId());
+                intent.putExtra("note", note);
+                holder.itemView.getContext().startActivity(intent);
+            }
+        });
     }
 
     @Override
@@ -54,6 +69,7 @@ public class NoteListAdapter extends BaseRecyclerAdapter {
             Note note = noteArrayList.get(position);
             binding.textViewNoteTitle.setText(note.getTitle());
             binding.textViewNoteContent.setText(note.getContent());
+            binding.textViewDate.setText(note.getCreatedAt());
         }
     }
 }

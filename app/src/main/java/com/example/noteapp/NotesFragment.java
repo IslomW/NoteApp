@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 import com.example.noteapp.adapters.NoteListAdapter;
 import com.example.noteapp.base.BaseFragment;
@@ -40,7 +41,7 @@ public class NotesFragment extends BaseFragment<FragmentNotesBinding> {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        binding.recyclerviewNotes.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
+        binding.recyclerviewNotes.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
         binding.recyclerviewNotes.setAdapter(noteListAdapter);
 
 
@@ -64,6 +65,9 @@ public class NotesFragment extends BaseFragment<FragmentNotesBinding> {
     @Override
     public void onResume() {
         super.onResume();
+
         noteListAdapter.notifyDataSetChanged();
     }
+
+
 }

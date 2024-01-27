@@ -28,8 +28,9 @@
         <activity android:name=".LoginActivity"/>
 
         <activity android:name=".RegisterActivity"/>
-
+        <activity android:name=".NoteDetailsActivity"/>
         <activity android:name=".AddNoteActivity"/>
+
 
 
     </application>

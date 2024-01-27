@@ -85,6 +85,26 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         return notes;
     }
 
+    public void updateNote(Note note){
+        db = getWritableDatabase();
+
+        String updateSql = String.format("UPDATE %s SET %s = '%s', %s = '%s' WHERE ID = %s;",Note.Entry.TABLE_NAME,
+                Note.Entry.TITLE, note.getTitle(),Note.Entry.CONTENT, note.getContent(), note.getId());
+
+//        String updateSql = "UPDATE "+Note.Entry.TABLE_NAME+" SET "+Note.Entry.TITLE+"='"+note.getTitle()+"' WHERE ID ="+note.getId()+";";
+
+        db.execSQL(updateSql);
+        db.close();
+    }
+
+
+    public void deleteNote(Note note){
+        db = getWritableDatabase();
+
+        String deleteSql = String.format("DELETE FROM %s WHERE ID = %s;", Note.Entry.TABLE_NAME, note.getId());
+        db.execSQL(deleteSql);
+        db.close();
+    }
 
     @Override
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
