@@ -10,6 +10,10 @@ import com.example.noteapp.base.BaseActivity;
 import com.example.noteapp.databinding.ActivityAddNewCardBinding;
 import com.example.noteapp.model.Note;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 
 public class AddNoteActivity extends BaseActivity<ActivityAddNewCardBinding> {
 
@@ -48,13 +52,35 @@ public class AddNoteActivity extends BaseActivity<ActivityAddNewCardBinding> {
 
                 if (note == null) {
                     Note note = new Note(title, content);
-                    dataBaseHelper.addNote(note, false);
+//                    dataBaseHelper.addNote(note, false);
+                    Call<Note> call = mainApi.createNote(getBearerToken(), note);
+                    showLoading();
+
+                    call.enqueue(new Callback<Note>() {
+                        @Override
+                        public void onResponse(Call<Note> call, Response<Note> response) {
+                            hideLoading();
+                            if (response.isSuccessful()){
+                                finish();
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<Note> call, Throwable t) {
+                            hideLoading();
+                            finish();
+                        }
+                    });
+
+
+
                 } else {
                     note.setTitle(title);
                     note.setContent(content);
-                    dataBaseHelper.updateNote(note);
+//                    dataBaseHelper.updateNote(note);
+
                 }
-                finish();
+//                finish();
 
             }
         });

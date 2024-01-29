@@ -12,7 +12,11 @@ import androidx.viewbinding.ViewBinding;
 
 import com.example.noteapp.R;
 import com.example.noteapp.db.DataBaseHelper;
+import com.example.noteapp.remote.MainApi;
 import com.example.noteapp.util.PreferenceManger;
+
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 public abstract class BaseActivity<T extends ViewBinding> extends AppCompatActivity {
 
@@ -23,6 +27,9 @@ public abstract class BaseActivity<T extends ViewBinding> extends AppCompatActiv
     public PreferenceManger preferenceManger;
 
     public DataBaseHelper dataBaseHelper;
+
+    public MainApi mainApi;
+    LoadingBarDialog loadingBarDialog;
 
     protected boolean hasBackButton() {
         return false;
@@ -40,7 +47,10 @@ public abstract class BaseActivity<T extends ViewBinding> extends AppCompatActiv
         setContentView(binding.getRoot());
 
         preferenceManger = PreferenceManger.getInstance(getApplicationContext());
+
         dataBaseHelper = new DataBaseHelper(this);
+
+        loadingBarDialog = new LoadingBarDialog(this);
 
         Toolbar toolbar = (binding.getRoot()).findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -55,6 +65,29 @@ public abstract class BaseActivity<T extends ViewBinding> extends AppCompatActiv
             }
         }
 
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl("http://api.note-app.beknumonov.com")
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+        mainApi = retrofit.create(MainApi.class);
+
+
+    }
+
+    public String getBearerToken(){
+        String access_token = (String) preferenceManger.getValue(String.class, "accessToken", "");
+        String bearerToken = "Bearer " + access_token;
+        return bearerToken;
+    }
+
+    public void showLoading(){
+        if (!loadingBarDialog.isShowing())
+            loadingBarDialog.show();
+
+    }
+
+    public void hideLoading(){
+        loadingBarDialog.hide();
     }
 
     @Override

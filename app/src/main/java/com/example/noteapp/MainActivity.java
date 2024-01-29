@@ -2,25 +2,20 @@ package com.example.noteapp;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
 
 import com.example.noteapp.base.BaseActivity;
-import com.example.noteapp.base.BaseFragment;
 import com.example.noteapp.databinding.ActivityMainBinding;
+import com.example.noteapp.fragments.NotesFragment;
+import com.example.noteapp.fragments.ProfileFragment;
 import com.example.noteapp.model.Note;
 import com.google.android.material.navigation.NavigationBarView;
 
 import java.util.ArrayList;
-import java.util.zip.Inflater;
 
 public class MainActivity extends BaseActivity<ActivityMainBinding> {
 

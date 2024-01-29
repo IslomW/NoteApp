@@ -1,20 +1,23 @@
-package com.example.noteapp;
+package com.example.noteapp.fragments;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
+import com.example.noteapp.AddNoteActivity;
+import com.example.noteapp.base.LoadingBarDialog;
 import com.example.noteapp.adapters.NoteListAdapter;
 import com.example.noteapp.base.BaseFragment;
 import com.example.noteapp.databinding.FragmentNotesBinding;
 import com.example.noteapp.model.Note;
+import com.example.noteapp.model.User;
 import com.example.noteapp.remote.MainApi;
 
 import java.util.ArrayList;
@@ -30,9 +33,6 @@ public class NotesFragment extends BaseFragment<FragmentNotesBinding> {
 
     private NoteListAdapter noteListAdapter;
     private ArrayList<Note> noteArrayList = new ArrayList<>();
-    private MainApi mainApi;
-    private LoadingBarDialog dialog;
-
 
     @Override
     protected FragmentNotesBinding inflateViewBinding(LayoutInflater inflater, ViewGroup parent, boolean toAttachRoot) {
@@ -45,9 +45,8 @@ public class NotesFragment extends BaseFragment<FragmentNotesBinding> {
 //        noteArrayList = baseActivity.dataBaseHelper.getNotes();
         noteListAdapter = new NoteListAdapter(noteArrayList);
 
-        dialog = new LoadingBarDialog(requireContext());
 
-        retrofitCreateAndGetData();
+
 
         {//        Retrofit retrofit = new Retrofit.Builder()
 //                .baseUrl("http://api.note-app.beknumonov.com")
@@ -87,21 +86,20 @@ public class NotesFragment extends BaseFragment<FragmentNotesBinding> {
     }
 
     private void retrofitCreateAndGetData(){
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("http://api.note-app.beknumonov.com")
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-        mainApi = retrofit.create(MainApi.class);
-        String bearerToken = "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzA3MDE3NDkyLCJpYXQiOjE3MDY0MTc0OTIsImp0aSI6IjliYmQzYjIzYmVlZDRkYTVhMmJmZjM2NTJlYTM3YzM5IiwidXNlcl9pZCI6NSwiZmlyc3RfbmFtZSI6IlVzZXIgMSIsImxhc3RfbmFtZSI6IlVzZXIgMiJ9.X_8cTZbaHIMvoEQ6GqEiAZtm4cuqL4I_iE4lhZ23EY0";
 
-        Call<ArrayList<Note>> call = mainApi.getNote(bearerToken);
+        User user = (User) baseActivity.preferenceManger.getValue(User.class, "user", null);
+        if (user != null){
+            Log.d("User", user.toString());
+        }
+
+        Call<ArrayList<Note>> call = baseActivity.mainApi.getNote(baseActivity.getBearerToken());
 //        call.execute();
 
-        dialog.show();
+        baseActivity.showLoading();
         call.enqueue(new Callback<ArrayList<Note>>() {
             @Override
             public void onResponse(Call<ArrayList<Note>> call, Response<ArrayList<Note>> response) {
-                dialog.hide();
+                baseActivity.hideLoading();
                 if (response.isSuccessful()){
                     noteArrayList.clear();
                     ArrayList<Note> notes = response.body();
@@ -134,6 +132,7 @@ public class NotesFragment extends BaseFragment<FragmentNotesBinding> {
     @Override
     public void onStart() {
         super.onStart();
+        retrofitCreateAndGetData();
 //        noteArrayList.clear();
 //        noteArrayList.addAll(baseActivity.dataBaseHelper.getNotes());
     }

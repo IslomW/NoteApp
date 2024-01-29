@@ -6,7 +6,7 @@ public interface PreferenceHelper {
 
     <T> Object getValue(Class<T> tClass, String key, Object defaultValue);
 
-    void clera();
+    void clear();
 
     void remoteKey(String key);
 

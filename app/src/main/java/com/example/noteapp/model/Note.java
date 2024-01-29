@@ -31,7 +31,7 @@ public class Note implements Serializable {
         this.createdAt = createdAt;
     }
 
-    public Integer getId() {
+    public int getId() {
         return id;
     }
 

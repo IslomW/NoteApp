@@ -1,4 +1,4 @@
-package com.example.noteapp;
+package com.example.noteapp.fragments;
 
 import android.view.LayoutInflater;
 import android.view.ViewGroup;

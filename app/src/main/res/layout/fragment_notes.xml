@@ -13,7 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-        tools:itemCount="3"
+        tools:itemCount="6"
         tools:spanCount="2"
         tools:listitem="@layout/item_note">
 

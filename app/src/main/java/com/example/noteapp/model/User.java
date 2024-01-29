@@ -5,9 +5,9 @@ import com.google.gson.annotations.SerializedName;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-public class User  implements Serializable {
+public class User implements Serializable {
     @SerializedName("id")
-    private int id;
+    private Integer id;
     @SerializedName("email")
     private String email;
     @SerializedName("password")
@@ -20,18 +20,12 @@ public class User  implements Serializable {
     private String phoneNumber;
     @SerializedName("address")
     private String address;
-    @SerializedName("access_token")
+    @SerializedName("access")
     private String accessToken;
 
-    public String getAccessToken() {
-        return accessToken;
-    }
 
-    public void setAccessToken(String accessToken) {
-        this.accessToken = accessToken;
+    private User() {
     }
-
-    private User(){}
 
     public User(String email, String password) {
         this.email = email;
@@ -92,5 +86,28 @@ public class User  implements Serializable {
 
     public void setAddress(String address) {
         this.address = address;
+    }
+
+    public String getAccessToken() {
+        return accessToken;
+    }
+
+    public void setAccessToken(String accessToken) {
+        this.accessToken = accessToken;
+    }
+
+    @Override
+    public String
+    toString() {
+        return "User{" +
+                "id=" + id +
+                ", email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", phoneNumber='" + phoneNumber + '\'' +
+                ", address='" + address + '\'' +
+                ", accessToken='" + accessToken + '\'' +
+                '}';
     }
 }
