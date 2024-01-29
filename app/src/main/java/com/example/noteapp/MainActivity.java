@@ -10,6 +10,7 @@ import android.view.MenuItem;
 
 import com.example.noteapp.base.BaseActivity;
 import com.example.noteapp.databinding.ActivityMainBinding;
+import com.example.noteapp.fragments.NewsFragment;
 import com.example.noteapp.fragments.NotesFragment;
 import com.example.noteapp.fragments.ProfileFragment;
 import com.example.noteapp.model.Note;
@@ -21,6 +22,7 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> {
 
     private ArrayList<Note> noteArrayList;
     private NotesFragment notesFragment;
+    private NewsFragment newsFragment;
     private ProfileFragment profileFragment;
 
 
@@ -32,7 +34,7 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        replaceFragment(R.id.nav_notes);
+        replaceFragment(R.id.nav_new);
 //        generateNotes();
 
         binding.bottomNav.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
@@ -63,6 +65,12 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> {
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, profileFragment).commit();
             setTitle("Profile");
 
+        }else if(tabId == R.id.nav_new){
+            if (newsFragment == null)
+                newsFragment = new NewsFragment();
+
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, newsFragment).commit();
+            setTitle("News");
         }
     }
 

@@ -44,6 +44,22 @@ public class NoteDetailsActivity extends BaseActivity<ActivityNoteDetalisBinding
                 Intent intent = new Intent(NoteDetailsActivity.this, AddNoteActivity.class);
                 intent.putExtra("note", note);
                 startActivity(intent);
+//                Call<Note> callUpdate = mainApi.updateNote(getBearerToken(),note.getId(), note);
+//                showLoading();
+//                callUpdate.enqueue(new Callback<Note>() {
+//                    @Override
+//                    public void onResponse(Call<Note> call, Response<Note> response) {
+//                        hideLoading();
+//                        if(response.isSuccessful())
+//                            finish();
+//                    }
+//
+//                    @Override
+//                    public void onFailure(Call<Note> call, Throwable t) {
+//                        hideLoading();
+//                        finish();
+//                    }
+//                });
                 finish();
 
             }
@@ -56,14 +72,17 @@ public class NoteDetailsActivity extends BaseActivity<ActivityNoteDetalisBinding
 //                dataBaseHelper.deleteNote(note);
 //                finish();
                 Call<Void> call = mainApi.deleteNote(getBearerToken(), note.getId());
+                showLoading();
                 call.enqueue(new Callback<Void>() {
                     @Override
                     public void onResponse(Call<Void> call, Response<Void> response) {
+                        hideLoading();
                         finish();
                     }
 
                     @Override
                     public void onFailure(Call<Void> call, Throwable t) {
+                        hideLoading();
                         finish();
                     }
                 });
