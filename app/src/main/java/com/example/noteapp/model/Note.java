@@ -1,13 +1,20 @@
 package com.example.noteapp.model;
 
 
+import com.google.gson.annotations.SerializedName;
+
 import java.io.Serializable;
+
 
 public class Note implements Serializable {
 
+    @SerializedName("id")
     private Integer id;
+    @SerializedName("title")
     private String title;
+    @SerializedName("content")
     private String content;
+    @SerializedName("create_at")
     private String createdAt;
 
     public Note(String title, String content){
