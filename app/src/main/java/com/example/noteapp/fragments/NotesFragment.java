@@ -103,8 +103,7 @@ public class NotesFragment extends BaseFragment<FragmentNotesBinding> {
                 if (response.isSuccessful()){
                     noteArrayList.clear();
                     ArrayList<Note> notes = response.body();
-                    noteArrayList.addAll(notes)
-                    ;
+                    noteArrayList.addAll(notes);
                     noteListAdapter.notifyDataSetChanged();
                 }else {
                     onFailure(call, new Throwable("Failed"));

@@ -66,7 +66,7 @@ public abstract class BaseActivity<T extends ViewBinding> extends AppCompatActiv
         }
 
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("http://api.note-app.beknumonov.com")
+                .baseUrl("http://api.note.annyong.store")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         mainApi = retrofit.create(MainApi.class);

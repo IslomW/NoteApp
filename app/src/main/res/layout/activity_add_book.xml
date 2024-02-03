@@ -2,7 +2,9 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    xmlns:tool="http://schemas.android.com/tools"
+    android:background="@color/background">
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/app_bar"
@@ -10,14 +12,16 @@
         android:layout_height="wrap_content"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        >
 
         <androidx.appcompat.widget.Toolbar
+            tool:title="Add Book"
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/colorPrimary"
-            app:titleTextColor="@color/white" />
+            android:background="@color/background"
+            app:titleTextColor="@color/text_color" />
     </com.google.android.material.appbar.AppBarLayout>
 
     <LinearLayout
@@ -49,7 +53,6 @@
                 android:paddingLeft="10dp"
                 android:paddingTop="8dp"
                 android:textSize="20sp" />
-
         </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
@@ -63,27 +66,34 @@
             >
 
             <EditText
-                android:id="@+id/edit_text_content"
+                android:id="@+id/edit_text_description"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@android:color/transparent"
                 android:gravity="start"
-                android:hint="Content"
+                android:hint="Description"
                 android:inputType="textCapWords"
                 android:paddingLeft="10dp"
                 android:textSize="25sp" />
 
         </androidx.cardview.widget.CardView>
 
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:id="@+id/image_view_book"
+            android:src="@drawable/ic_add_image"
+            />
+
 
         <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/button_create_note"
+            android:id="@+id/button_create_book"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_margin="10dp"
             android:background="@drawable/custom_button"
-            android:text="Add note" />
+            android:text="create Book" />
 
 
     </LinearLayout>

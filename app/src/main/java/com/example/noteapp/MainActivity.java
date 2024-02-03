@@ -10,11 +10,17 @@ import android.view.MenuItem;
 
 import com.example.noteapp.base.BaseActivity;
 import com.example.noteapp.databinding.ActivityMainBinding;
+import com.example.noteapp.fragments.BookFragment;
 import com.example.noteapp.fragments.NewsFragment;
 import com.example.noteapp.fragments.NotesFragment;
 import com.example.noteapp.fragments.ProfileFragment;
 import com.example.noteapp.model.Note;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.navigation.NavigationBarView;
+import com.google.firebase.Firebase;
+import com.google.firebase.messaging.FirebaseMessaging;
+import com.google.firebase.messaging.FirebaseMessagingService;
 
 import java.util.ArrayList;
 
@@ -23,6 +29,7 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> {
     private ArrayList<Note> noteArrayList;
     private NotesFragment notesFragment;
     private NewsFragment newsFragment;
+    private BookFragment bookFragment;
     private ProfileFragment profileFragment;
 
 
@@ -36,6 +43,7 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> {
         super.onCreate(savedInstanceState);
         replaceFragment(R.id.nav_new);
 //        generateNotes();
+        getFCMToken();
 
         binding.bottomNav.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
             @Override
@@ -46,6 +54,15 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> {
         });
 
 
+    }
+
+    private void getFCMToken() {
+        FirebaseMessaging.getInstance().getToken().addOnCompleteListener(task -> {
+            if (task.isSuccessful()){
+                String token = task.getResult();
+                Log.i("My token", token);
+            }
+        });
     }
 
     private void replaceFragment(int tabId) {
@@ -71,6 +88,12 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> {
 
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, newsFragment).commit();
             setTitle("News");
+        }else if (tabId == R.id.nav_books){
+            if (bookFragment == null)
+                bookFragment = new BookFragment();
+
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, bookFragment).commit();
+            setTitle("Books");
         }
     }
 

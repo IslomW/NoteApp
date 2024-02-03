@@ -7,7 +7,7 @@ import android.view.View;
 import androidx.annotation.Nullable;
 
 import com.example.noteapp.base.BaseActivity;
-import com.example.noteapp.databinding.ActivityAddNewCardBinding;
+import com.example.noteapp.databinding.ActivityAddNoteBinding;
 import com.example.noteapp.model.Note;
 
 import retrofit2.Call;
@@ -15,13 +15,13 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 
-public class AddNoteActivity extends BaseActivity<ActivityAddNewCardBinding> {
+public class AddNoteActivity extends BaseActivity<ActivityAddNoteBinding> {
 
     private Note note;
 
     @Override
-    protected ActivityAddNewCardBinding inflateViewBinding(LayoutInflater inflater) {
-        return ActivityAddNewCardBinding.inflate(inflater);
+    protected ActivityAddNoteBinding inflateViewBinding(LayoutInflater inflater) {
+        return ActivityAddNoteBinding.inflate(inflater);
     }
 
     @Override
@@ -30,8 +30,6 @@ public class AddNoteActivity extends BaseActivity<ActivityAddNewCardBinding> {
 //
 //        int note_id = getIntent().getIntExtra("note_id", 0);
         note = (Note) getIntent().getSerializableExtra("note");
-
-
 
 
         if (note != null) {
@@ -60,7 +58,7 @@ public class AddNoteActivity extends BaseActivity<ActivityAddNewCardBinding> {
                         @Override
                         public void onResponse(Call<Note> call, Response<Note> response) {
                             hideLoading();
-                            if (response.isSuccessful()){
+                            if (response.isSuccessful()) {
                                 finish();
                             }
                         }
@@ -73,10 +71,21 @@ public class AddNoteActivity extends BaseActivity<ActivityAddNewCardBinding> {
                     });
 
 
-
                 } else {
                     note.setTitle(title);
                     note.setContent(content);
+                    Call<Note> call = mainApi.updateNote(getBearerToken(), note.getId(), note);
+                    call.enqueue(new Callback<Note>() {
+                        @Override
+                        public void onResponse(Call<Note> call, Response<Note> response) {
+                            finish();
+                        }
+
+                        @Override
+                        public void onFailure(Call<Note> call, Throwable t) {
+                            finish();
+                        }
+                    });
 //                    dataBaseHelper.updateNote(note);
 
                 }
