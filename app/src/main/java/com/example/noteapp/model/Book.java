@@ -2,7 +2,11 @@ package com.example.noteapp.model;
 
 import com.google.gson.annotations.SerializedName;
 
-public class Book {
+import java.io.Serializable;
+
+public class Book implements Serializable {
+    @SerializedName("id")
+    private Integer id;
     @SerializedName("title")
     private String title;
     @SerializedName("description")
@@ -16,11 +20,21 @@ public class Book {
     public Book() {
     }
 
-    public Book(String title, String description, int pageCount, String imageUrl) {
+    public Book(String title, String description, int pageCount, String imageUrl, Integer id) {
         this.title = title;
         this.description = description;
         this.pageCount = pageCount;
         this.imageUrl = imageUrl;
+        this.id = id;
+    }
+
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public String getTitle() {

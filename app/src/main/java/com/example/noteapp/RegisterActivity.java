@@ -1,15 +1,24 @@
 package com.example.noteapp;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.example.noteapp.base.BaseActivity;
 import com.example.noteapp.databinding.ActivityRegisterBinding;
+import com.example.noteapp.model.User;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.messaging.FirebaseMessaging;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class RegisterActivity extends BaseActivity<ActivityRegisterBinding> {
 
@@ -17,6 +26,8 @@ public class RegisterActivity extends BaseActivity<ActivityRegisterBinding> {
     protected ActivityRegisterBinding inflateViewBinding(LayoutInflater inflater) {
         return ActivityRegisterBinding.inflate(getLayoutInflater());
     }
+
+    private String deviceToken;
 
     @Override
     protected boolean hasBackButton() {
@@ -32,6 +43,15 @@ public class RegisterActivity extends BaseActivity<ActivityRegisterBinding> {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setTitle("Registration");
+        FirebaseMessaging.getInstance().getToken().addOnCompleteListener(new OnCompleteListener<String>() {
+            @Override
+            public void onComplete(@NonNull Task<String> task) {
+                if (task.isSuccessful()) {
+                    deviceToken = task.getResult();
+                    Log.d("Token", deviceToken);
+                }
+            }
+        });
 
         buttonClickSetup();
     }
@@ -62,28 +82,41 @@ public class RegisterActivity extends BaseActivity<ActivityRegisterBinding> {
                 }
                 if (password.equals(confirmPassword)){
 
-//                    SharedPreferences sharedPreferences = getSharedPreferences("NoteAppSharedPef", MODE_PRIVATE);
-//
-//                    SharedPreferences.Editor editor = sharedPreferences.edit();
-//                    editor.putString("firstName", firstName);
-//                    editor.putString("lastName", lastName);
-//                    editor.putString("email", email);
-//                    editor.putString("password", password);
-//                    editor.putBoolean("isLoggedIn", true);
-//                    editor.apply();
-//
-//                    if (editor.commit()){
-//                        Intent intent = new Intent(RegisterActivity.this, MainActivity.class);
-//                        startActivity(intent);
-//                    }
-                    preferenceManger.setValue("firstName", firstName);
-                    preferenceManger.setValue("lastName", lastName);
-                    preferenceManger.setValue("email", email);
-                    preferenceManger.setValue("password", password);
-                    preferenceManger.setValue("isLoggedIn", true);
+                    User user = new User();
+                    user.setFirstName(firstName);
+                    user.setLastName(lastName);
+                    user.setEmail(email);
+                    user.setPassword(password);
+                    user.setDeviceToken(deviceToken);
 
-                    Intent intent = new Intent(RegisterActivity.this, MainActivity.class);
-                    startActivity(intent);
+
+                    Call<User> call = mainApi.createUser(user);
+
+                    call.enqueue(new Callback<User>() {
+                        @Override
+                        public void onResponse(Call<User> call, Response<User> response) {
+                            if (response.isSuccessful()){
+
+                                preferenceManger.setValue("isLoggedIn", true);
+                                preferenceManger.setValue("user", response.body());
+                                preferenceManger.setValue("accessToken", response.body().getAccessToken());
+                                preferenceManger.setValue("device_token", deviceToken);
+                                preferenceManger.setValue("password", password);
+                                preferenceManger.setValue("email", user.getEmail());
+
+
+                                Intent intent = new Intent(RegisterActivity.this, MainActivity.class);
+                                startActivity(intent);
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<User> call, Throwable t) {
+
+                        }
+                    });
+
+
 
                 } else {
 

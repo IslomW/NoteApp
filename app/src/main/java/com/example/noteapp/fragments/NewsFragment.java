@@ -74,7 +74,7 @@ public class NewsFragment extends BaseFragment<FragmentNewsBinding> {
         if (page == 1 && !binding.swipeRefreshLayout.isRefreshing())
             baseActivity.showLoading();
 
-        Call<ArrayList<News>> call = baseActivity.mainApi.getNews(baseActivity.getBearerToken(), page);
+        Call<ArrayList<News>> call = baseActivity.mainApi.getNews(page);
 
 
         call.enqueue(new Callback<ArrayList<News>>() {

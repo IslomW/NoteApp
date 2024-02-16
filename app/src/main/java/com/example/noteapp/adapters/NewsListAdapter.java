@@ -1,13 +1,14 @@
 package com.example.noteapp.adapters;
 
+import android.content.Intent;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.example.noteapp.base.BaseFragment;
+import com.example.noteapp.NewsDetailsActivity;
 import com.example.noteapp.base.BaseRecyclerAdapter;
 import com.example.noteapp.base.BaseViewHolder;
 import com.example.noteapp.base.ListLoadingListener;
@@ -58,6 +59,17 @@ public class NewsListAdapter extends BaseRecyclerAdapter {
                 listLoadingListener.onLoadingCreated();
             }
         }
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                News news = newsArrayList.get(holder.getAdapterPosition());
+
+                Intent intent = new Intent(holder.itemView.getContext(), NewsDetailsActivity.class);
+                intent.putExtra("news", newsArrayList.get(position));
+                holder.itemView.getContext().startActivity(intent);
+            }
+        });
     }
 
     @Override

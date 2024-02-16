@@ -1,12 +1,10 @@
 package com.example.noteapp.base;
 
-import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewbinding.ViewBinding;
 
-import com.example.noteapp.adapters.NoteListAdapter;
 
 public abstract class BaseViewHolder<T extends ViewBinding> extends RecyclerView.ViewHolder {
 

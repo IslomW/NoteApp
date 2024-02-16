@@ -11,7 +11,6 @@ import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.example.noteapp.AddBookActivity;
-import com.example.noteapp.AddNoteActivity;
 import com.example.noteapp.adapters.BookListAdapter;
 import com.example.noteapp.base.BaseFragment;
 import com.example.noteapp.databinding.FragmentBooksBinding;
@@ -57,7 +56,7 @@ public class BookFragment extends BaseFragment<FragmentBooksBinding> {
     }
 
     private void loadBooks() {
-        Call<ArrayList<Book>> call = baseActivity.mainApi.getBooks(baseActivity.getBearerToken());
+        Call<ArrayList<Book>> call = baseActivity.mainApi.getBooks();
         call.enqueue(new Callback<ArrayList<Book>>() {
             @Override
             public void onResponse(Call<ArrayList<Book>> call, Response<ArrayList<Book>> response) {

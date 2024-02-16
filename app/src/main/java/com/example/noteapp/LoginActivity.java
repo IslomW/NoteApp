@@ -1,7 +1,7 @@
 package com.example.noteapp;
 
+import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -13,6 +13,8 @@ import com.example.noteapp.base.BaseActivity;
 import com.example.noteapp.databinding.ActivityLoginBinding;
 import com.example.noteapp.model.User;
 import com.google.gson.Gson;
+
+import java.io.FileOutputStream;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -59,12 +61,16 @@ public class LoginActivity extends BaseActivity<ActivityLoginBinding> {
                     public void onResponse(Call<User> call, Response<User> response) {
                         hideLoading();
                         if(response.isSuccessful()){
-                            User loginUser = response.body();
-                            if(loginUser!=null){
+                            User user = response.body();
+                            if(user!=null){
                                 preferenceManger.setValue("isLoggedIn", true);
-                                preferenceManger.setValue("accessToken", loginUser.getAccessToken());
+                                preferenceManger.setValue("access_token", user.getAccessToken());
+                                preferenceManger.setValue("email", email);
+                                preferenceManger.setValue("password", password);
 
-                                preferenceManger.setValue("user", loginUser);
+                                saveToFile(user.getAccessToken());
+                                preferenceManger.setValue("user", user);
+
 
                                 Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                                 startActivity(intent);
@@ -96,6 +102,22 @@ public class LoginActivity extends BaseActivity<ActivityLoginBinding> {
                 startActivity(intent);
             }
         });
+
+
+    }
+
+
+    private void saveToFile(String access_token) {
+        String filename = "my_access_token.txt";
+
+        FileOutputStream out;
+        try {
+            out = openFileOutput(filename, Context.MODE_PRIVATE);
+            out.write(access_token.getBytes());
+            out.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
 
     }

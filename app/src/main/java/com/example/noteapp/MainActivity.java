@@ -15,14 +15,15 @@ import com.example.noteapp.fragments.NewsFragment;
 import com.example.noteapp.fragments.NotesFragment;
 import com.example.noteapp.fragments.ProfileFragment;
 import com.example.noteapp.model.Note;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
+import com.example.noteapp.model.User;
 import com.google.android.material.navigation.NavigationBarView;
-import com.google.firebase.Firebase;
 import com.google.firebase.messaging.FirebaseMessaging;
-import com.google.firebase.messaging.FirebaseMessagingService;
 
 import java.util.ArrayList;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class MainActivity extends BaseActivity<ActivityMainBinding> {
 
@@ -32,19 +33,20 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> {
     private BookFragment bookFragment;
     private ProfileFragment profileFragment;
 
+    private String deviceToken;
 
     @Override
     protected ActivityMainBinding inflateViewBinding(LayoutInflater inflater) {
         return ActivityMainBinding.inflate(getLayoutInflater());
     }
 
+
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         replaceFragment(R.id.nav_new);
 //        generateNotes();
-        getFCMToken();
-
         binding.bottomNav.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -54,13 +56,39 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> {
         });
 
 
+        getFCMToken();
+
     }
 
     private void getFCMToken() {
         FirebaseMessaging.getInstance().getToken().addOnCompleteListener(task -> {
             if (task.isSuccessful()){
-                String token = task.getResult();
-                Log.i("My token", token);
+                User p_user = (User) preferenceManger.getValue(User.class, "user", null);
+                if (p_user == null)
+                    return;
+
+                String device_token = (String) preferenceManger.getValue(String.class, "device_token","");
+                deviceToken = task.getResult();
+//                Log.i("My token", deviceToken);
+                if (!device_token.equals(deviceToken)){
+                    User user = new User();
+                    user.setDeviceToken(deviceToken);
+
+
+                    Call<User> call = mainApi.registerDeviceToken( p_user.getId(), user);
+                    call.enqueue(new Callback<User>() {
+                        @Override
+                        public void onResponse(Call<User> call, Response<User> response) {
+                        if (response.isSuccessful())
+                            preferenceManger.setValue("device_token", deviceToken);
+                        }
+
+                        @Override
+                        public void onFailure(Call<User> call, Throwable t) {
+
+                        }
+                    });
+                }
             }
         });
     }

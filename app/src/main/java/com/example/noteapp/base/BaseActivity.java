@@ -15,8 +15,6 @@ import com.example.noteapp.db.DataBaseHelper;
 import com.example.noteapp.remote.MainApi;
 import com.example.noteapp.util.PreferenceManger;
 
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 public abstract class BaseActivity<T extends ViewBinding> extends AppCompatActivity {
 
@@ -65,11 +63,7 @@ public abstract class BaseActivity<T extends ViewBinding> extends AppCompatActiv
             }
         }
 
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("http://api.note.annyong.store")
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-        mainApi = retrofit.create(MainApi.class);
+        mainApi = ApiService.provideApi(MainApi.class, this);
 
 
     }

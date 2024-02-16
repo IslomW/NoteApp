@@ -34,11 +34,13 @@
         <activity android:name=".MainActivity"/>
 
         <activity android:name=".LoginActivity"/>
-
         <activity android:name=".RegisterActivity"/>
+        <activity android:name=".NewsDetailsActivity"/>
         <activity android:name=".NoteDetailsActivity"/>
         <activity android:name=".AddNoteActivity"/>
         <activity android:name=".AddBookActivity"/>
+        <activity android:name=".BookDetailsActivity"/>
+        <activity android:name=".UserListActivity"/>
 
         <service
             android:name=".FCMNotificationService"

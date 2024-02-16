@@ -7,8 +7,6 @@ import com.example.noteapp.BuildConfig;
 import com.example.noteapp.model.User;
 import com.google.gson.Gson;
 
-import java.util.prefs.Preferences;
-
 public class PreferenceManger implements PreferenceHelper {
 
     private static String SHARED_PREFERENCE_NAME = BuildConfig.APPLICATION_ID + ".local";

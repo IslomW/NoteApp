@@ -13,8 +13,8 @@ import android.view.View;
 import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
-import androidx.core.content.PackageManagerCompat;
 
+import com.bumptech.glide.Glide;
 import com.example.noteapp.base.BaseActivity;
 import com.example.noteapp.databinding.ActivityAddBookBinding;
 import com.example.noteapp.model.Book;
@@ -31,7 +31,7 @@ import retrofit2.Response;
 public class AddBookActivity extends BaseActivity<ActivityAddBookBinding> {
 
     private File selectFile;
-
+    private Book book;
     @Override
     protected ActivityAddBookBinding inflateViewBinding(LayoutInflater inflater) {
         return ActivityAddBookBinding.inflate(inflater);
@@ -40,7 +40,16 @@ public class AddBookActivity extends BaseActivity<ActivityAddBookBinding> {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        book = (Book) getIntent().getSerializableExtra("book");
+        if (book != null){
+            binding.buttonCreateBook.setText("Update Book");
+            binding.editTextTitle.setText(book.getTitle());
+            binding.editTextDescription.setText(book.getDescription());
 
+            Glide.with(binding.imageViewBook).load(book.getImageUrl()).into(binding.imageViewBook);
+        }else{
+            setTitle("Create Book");
+        }
 
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 2000);
@@ -61,32 +70,55 @@ public class AddBookActivity extends BaseActivity<ActivityAddBookBinding> {
                 String title = binding.editTextTitle.getText().toString();
                 String descripton = binding.editTextDescription.getText().toString();
 
+
+
                 if (title.isEmpty() && descripton.isEmpty() && selectFile == null) {
                     return;
                 }
 
-                RequestBody titleRb = RequestBody.create(MultipartBody.FORM, title);
-                RequestBody descriptionRb = RequestBody.create(MultipartBody.FORM, descripton);
-                String mediaType = "jpg";
-                RequestBody imageRb = RequestBody.create(MediaType.parse(mediaType), selectFile);
+                if (book == null) {
 
-                MultipartBody.Part imagePart = MultipartBody.Part.createFormData("image", selectFile.getName(), imageRb);
+                    RequestBody titleRb = RequestBody.create(MultipartBody.FORM, title);
+                    RequestBody descriptionRb = RequestBody.create(MultipartBody.FORM, descripton);
+                    String mediaType = "jpg";
+                    RequestBody imageRb = RequestBody.create(MediaType.parse(mediaType), selectFile);
 
-                Call<Book> call = mainApi.createBook(getBearerToken(), titleRb, descriptionRb, imagePart);
+                    MultipartBody.Part imagePart = MultipartBody.Part.createFormData("image", selectFile.getName(), imageRb);
 
-                showLoading();
-                call.enqueue(new Callback<Book>() {
-                    @Override
-                    public void onResponse(Call<Book> call, Response<Book> response) {
-                        hideLoading();
-                        finish();
-                    }
+                    Call<Book> call = mainApi.createBook(titleRb, descriptionRb, imagePart);
 
-                    @Override
-                    public void onFailure(Call<Book> call, Throwable t) {
-                        hideLoading();
-                    }
-                });
+                    showLoading();
+                    call.enqueue(new Callback<Book>() {
+                        @Override
+                        public void onResponse(Call<Book> call, Response<Book> response) {
+                            hideLoading();
+                            finish();
+                        }
+
+                        @Override
+                        public void onFailure(Call<Book> call, Throwable t) {
+                            hideLoading();
+                        }
+                    });
+                }else {
+                    book.setTitle(title);
+                    book.setDescription(descripton);
+
+                    Call<Book> call = mainApi.updateBook(book.getId(), book.getTitle(), book.getDescription());
+
+                    call.enqueue(new Callback<Book>() {
+                        @Override
+                        public void onResponse(Call<Book> call, Response<Book> response) {
+                            finish();
+                        }
+
+                        @Override
+                        public void onFailure(Call<Book> call, Throwable t) {
+
+                        }
+                    });
+                }
+
             }
         });
     }

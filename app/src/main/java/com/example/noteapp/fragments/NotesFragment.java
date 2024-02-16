@@ -12,21 +12,17 @@ import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 import com.example.noteapp.AddNoteActivity;
-import com.example.noteapp.base.LoadingBarDialog;
 import com.example.noteapp.adapters.NoteListAdapter;
 import com.example.noteapp.base.BaseFragment;
 import com.example.noteapp.databinding.FragmentNotesBinding;
 import com.example.noteapp.model.Note;
 import com.example.noteapp.model.User;
-import com.example.noteapp.remote.MainApi;
 
 import java.util.ArrayList;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 
 public class NotesFragment extends BaseFragment<FragmentNotesBinding> {
@@ -92,7 +88,7 @@ public class NotesFragment extends BaseFragment<FragmentNotesBinding> {
             Log.d("User", user.toString());
         }
 
-        Call<ArrayList<Note>> call = baseActivity.mainApi.getNote(baseActivity.getBearerToken());
+        Call<ArrayList<Note>> call = baseActivity.mainApi.getNote();
 //        call.execute();
 
         baseActivity.showLoading();

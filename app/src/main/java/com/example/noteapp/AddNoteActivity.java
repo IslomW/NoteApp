@@ -31,7 +31,6 @@ public class AddNoteActivity extends BaseActivity<ActivityAddNoteBinding> {
 //        int note_id = getIntent().getIntExtra("note_id", 0);
         note = (Note) getIntent().getSerializableExtra("note");
 
-
         if (note != null) {
             binding.buttonCreateNote.setText("Update Note");
             binding.editTextTitle.setText(note.getTitle());
@@ -51,7 +50,7 @@ public class AddNoteActivity extends BaseActivity<ActivityAddNoteBinding> {
                 if (note == null) {
                     Note note = new Note(title, content);
 //                    dataBaseHelper.addNote(note, false);
-                    Call<Note> call = mainApi.createNote(getBearerToken(), note);
+                    Call<Note> call = mainApi.createNote(note);
                     showLoading();
 
                     call.enqueue(new Callback<Note>() {
@@ -74,7 +73,7 @@ public class AddNoteActivity extends BaseActivity<ActivityAddNoteBinding> {
                 } else {
                     note.setTitle(title);
                     note.setContent(content);
-                    Call<Note> call = mainApi.updateNote(getBearerToken(), note.getId(), note);
+                    Call<Note> call = mainApi.updateNote(note.getId(), note);
                     call.enqueue(new Callback<Note>() {
                         @Override
                         public void onResponse(Call<Note> call, Response<Note> response) {

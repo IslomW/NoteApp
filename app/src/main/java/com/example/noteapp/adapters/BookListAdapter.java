@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 
 import com.bumptech.glide.Glide;
+import com.example.noteapp.BookDetailsActivity;
 import com.example.noteapp.base.BaseRecyclerAdapter;
 import com.example.noteapp.base.BaseViewHolder;
 import com.example.noteapp.databinding.ItemBookBinding;
@@ -37,9 +38,11 @@ public class BookListAdapter extends BaseRecyclerAdapter {
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                Book book = bookArrayList.get(holder.getAdapterPosition());
-//
-//                Intent intent = new Intent(holder.itemView.getContext(), )
+                Book book = bookArrayList.get(holder.getAdapterPosition());
+
+                Intent intent = new Intent(holder.itemView.getContext(), BookDetailsActivity.class);
+                 intent.putExtra("book", book);
+                 holder.itemView.getContext().startActivity(intent);
             }
         });
     }

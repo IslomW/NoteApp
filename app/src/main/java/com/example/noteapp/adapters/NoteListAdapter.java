@@ -6,9 +6,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
-import androidx.viewbinding.ViewBinding;
-
-import com.example.noteapp.AddNoteActivity;
 import com.example.noteapp.NoteDetailsActivity;
 import com.example.noteapp.base.BaseRecyclerAdapter;
 import com.example.noteapp.base.BaseViewHolder;

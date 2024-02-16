@@ -11,15 +11,7 @@ public class FCMNotificationService extends FirebaseMessagingService {
 
     @Override
     public void onMessageReceived(@NonNull RemoteMessage message) {
-        Log.d("From: ", message.getFrom());
+        Log.d("Notification: title", message.getData().toString());
 
-        if (message.getData().size() > 0) {
-            Log.d("message data payload: ", message.getData().toString());
-        }
-
-
-        if (message.getNotification() != null){
-            Log.d("Message Notification Body", message.getNotification().getBody());
-        }
     }
 }

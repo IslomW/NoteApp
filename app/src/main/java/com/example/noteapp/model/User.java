@@ -3,7 +3,7 @@ package com.example.noteapp.model;
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
-import java.util.ArrayList;
+
 
 public class User implements Serializable {
     @SerializedName("id")
@@ -20,16 +20,33 @@ public class User implements Serializable {
     private String phoneNumber;
     @SerializedName("address")
     private String address;
+    @SerializedName("device_token")
+    private String deviceToken;
+
     @SerializedName("access")
     private String accessToken;
 
 
-    private User() {
+
+    public User() {
     }
 
     public User(String email, String password) {
         this.email = email;
         this.password = password;
+    }
+
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public String getDeviceToken() {
+        return deviceToken;
+    }
+
+    public void setDeviceToken(String deviceToken) {
+        this.deviceToken = deviceToken;
     }
 
     public int getId() {
