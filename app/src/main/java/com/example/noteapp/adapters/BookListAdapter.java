@@ -60,8 +60,8 @@ public class BookListAdapter extends BaseRecyclerAdapter {
         }
 
         @Override
-        protected void onBind(int positon) {
-            Book book = bookArrayList.get(positon);
+        protected void onBind(int position) {
+            Book book = bookArrayList.get(position);
             binding.textViewBookTitle.setText(book.getTitle());
             binding.textViewDescription.setText(book.getDescription());
 

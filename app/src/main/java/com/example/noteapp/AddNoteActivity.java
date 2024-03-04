@@ -74,9 +74,11 @@ public class AddNoteActivity extends BaseActivity<ActivityAddNoteBinding> {
                     note.setTitle(title);
                     note.setContent(content);
                     Call<Note> call = mainApi.updateNote(note.getId(), note);
+                    showLoading();
                     call.enqueue(new Callback<Note>() {
                         @Override
                         public void onResponse(Call<Note> call, Response<Note> response) {
+                            hideLoading();
                             finish();
                         }
 

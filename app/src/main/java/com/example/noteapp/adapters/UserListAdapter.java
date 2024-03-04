@@ -64,8 +64,8 @@ public class UserListAdapter extends BaseRecyclerAdapter {
 
 
         @Override
-        protected void onBind(int positon) {
-            User user = userArrayList.get(positon);
+        protected void onBind(int position) {
+            User user = userArrayList.get(position);
 
             binding.textViewUserFullName.setText(user.getEmail());
         }

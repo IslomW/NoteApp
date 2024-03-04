@@ -35,7 +35,7 @@ public interface MainApi {
     Call<User> createUser(@Body User user);
 
     @PUT("v1/user/{id}")
-    Call<User> registerDeviceToken( @Path("id") int id, @Body User user);
+    Call<User> registerDeviceToken(@Path("id") int id, @Body User user);
 
 
     //Note
@@ -46,10 +46,10 @@ public interface MainApi {
     Call<Note> createNote(@Body Note note);
 
     @DELETE("/v1/note/{id}/")
-    Call<Void> deleteNote( @Path("id") int id);
+    Call<Void> deleteNote(@Path("id") int id);
 
     @PUT("/v1/note/{id}/")
-    Call<Note> updateNote( @Path("id") int id, @Body Note note);
+    Call<Note> updateNote(@Path("id") int id, @Body Note note);
 
 
     //News
@@ -64,25 +64,26 @@ public interface MainApi {
 
     @Multipart
     @PUT("/v1/book/{id}/")
-    Call<Book> updateBook( @Path("id") int id,
-                           @Part("title") RequestBody title,
-                           @Part("descripton") RequestBody description,
-                           @Part MultipartBody.Part image);
+    Call<Book> updateBook(@Path("id") int id,
+                          @Part("title") RequestBody title,
+                          @Part("description") RequestBody description
+    );
+
     @DELETE("/v1/book/{id}/")
-    Call<Void> deleteBook( @Path("id") int id);
+    Call<Void> deleteBook(@Path("id") int id);
 
 
     @Multipart
     @POST("/v1/book/")
     Call<Book> createBook(
-                          @Part("title") RequestBody title,
-                          @Part("description") RequestBody description,
-                          @Part MultipartBody.Part image
+            @Part("title") RequestBody title,
+            @Part("description") RequestBody description,
+            @Part MultipartBody.Part image
     );
 
     //Share
     @POST("/v1/news/{id}/share/")
-    Call<String> shareNews( @Path("id") int newsId, @Body JsonObject body);
+    Call<String> shareNews(@Path("id") int newsId, @Body JsonObject body);
 
 
 }

@@ -15,5 +15,5 @@ public abstract class BaseViewHolder<T extends ViewBinding> extends RecyclerView
         this.binding = binding;
     }
 
-    protected abstract void onBind(int positon);
+    protected abstract void onBind(int position);
 }

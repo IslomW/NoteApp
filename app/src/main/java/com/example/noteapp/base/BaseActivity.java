@@ -68,11 +68,7 @@ public abstract class BaseActivity<T extends ViewBinding> extends AppCompatActiv
 
     }
 
-    public String getBearerToken(){
-        String access_token = (String) preferenceManger.getValue(String.class, "accessToken", "");
-        String bearerToken = "Bearer " + access_token;
-        return bearerToken;
-    }
+
 
     public void showLoading(){
         if (!loadingBarDialog.isShowing())

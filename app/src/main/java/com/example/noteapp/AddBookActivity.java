@@ -68,18 +68,18 @@ public class AddBookActivity extends BaseActivity<ActivityAddBookBinding> {
             @Override
             public void onClick(View view) {
                 String title = binding.editTextTitle.getText().toString();
-                String descripton = binding.editTextDescription.getText().toString();
+                String description = binding.editTextDescription.getText().toString();
 
 
 
-                if (title.isEmpty() && descripton.isEmpty() && selectFile == null) {
-                    return;
-                }
+//                if (title.isEmpty() && description.isEmpty() && selectFile == null) {
+//                    return;
+//                }
 
                 if (book == null) {
 
                     RequestBody titleRb = RequestBody.create(MultipartBody.FORM, title);
-                    RequestBody descriptionRb = RequestBody.create(MultipartBody.FORM, descripton);
+                    RequestBody descriptionRb = RequestBody.create(MultipartBody.FORM, description);
                     String mediaType = "jpg";
                     RequestBody imageRb = RequestBody.create(MediaType.parse(mediaType), selectFile);
 
@@ -101,14 +101,18 @@ public class AddBookActivity extends BaseActivity<ActivityAddBookBinding> {
                         }
                     });
                 }else {
-                    book.setTitle(title);
-                    book.setDescription(descripton);
 
-                    Call<Book> call = mainApi.updateBook(book.getId(), book.getTitle(), book.getDescription());
+                    RequestBody titleRb = RequestBody.create(MultipartBody.FORM, title);
+                    RequestBody descriptionRb = RequestBody.create(MultipartBody.FORM, description);
+
+
+                    Call<Book> call = mainApi.updateBook(book.getId(), titleRb, descriptionRb);
+                    showLoading();
 
                     call.enqueue(new Callback<Book>() {
                         @Override
                         public void onResponse(Call<Book> call, Response<Book> response) {
+                            hideLoading();
                             finish();
                         }
 

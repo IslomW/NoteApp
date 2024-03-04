@@ -62,6 +62,7 @@ public class BookDetailsActivity extends BaseActivity<ActivitiyBookDetailsBindin
                 Intent intent = new Intent(BookDetailsActivity.this, AddBookActivity.class);
                 intent.putExtra("book", book);
                 startActivity(intent);
+                finish();
             }
         });
 

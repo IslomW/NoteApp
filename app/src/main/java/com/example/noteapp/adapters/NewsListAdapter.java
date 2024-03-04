@@ -94,8 +94,8 @@ public class NewsListAdapter extends BaseRecyclerAdapter {
         }
 
         @Override
-        protected void onBind(int positon) {
-            News news = newsArrayList.get(positon);
+        protected void onBind(int position) {
+            News news = newsArrayList.get(position);
             binding.newsTitle.setText(news.getTitle());
             binding.newsSource.setText(news.getSource());
             binding.newsContent.setText(news.getContent());
@@ -111,7 +111,7 @@ public class NewsListAdapter extends BaseRecyclerAdapter {
         }
 
         @Override
-        protected void onBind(int positon) {
+        protected void onBind(int position) {
 
         }
     }
